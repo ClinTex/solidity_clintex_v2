@@ -10,7 +10,7 @@ contract TokenSwap {
     IERC20 public immutable tokenSwapFrom;
     IERC20 public immutable tokenSwapTo;
 
-    //TODO: add events
+    event Swapped(address indexed swapper, uint256 amount);
 
     constructor(address addressTokenSwapFrom, address addressTokenSwapTo) {
         //TODO: null address check
@@ -25,5 +25,7 @@ contract TokenSwap {
         require(contractBalance >= amount, "TokenSwap: contract balance is not enough to perform swap");
 
         tokenSwapTo.safeTransfer(msg.sender, amount);
+
+        emit Swapped(msg.sender, amount);
     }
 }
