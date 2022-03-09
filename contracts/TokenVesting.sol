@@ -31,7 +31,7 @@ contract TokenVesting is Ownable {
         uint256 _secondUnlockTime,
         uint256 _thirdUnlockTime
     ) {
-        //TODO: null address check
+        require(addressToken != address(0), "TokenVesting: token address cannot be zero");
         require(_firstUnlockTime > block.timestamp, "TokenVesting: unlock time is before current time");
         require(_secondUnlockTime > _firstUnlockTime, "TokenVesting: second unlock time is before first unlock time");
         require(_thirdUnlockTime > _secondUnlockTime, "TokenVesting: third unlock time is before second unlock time");
