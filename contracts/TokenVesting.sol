@@ -10,7 +10,6 @@ contract TokenVesting is Ownable {
 
     IERC20 public immutable token;
 
-    //TODO: timestamp optimization
     uint256 public immutable firstUnlockTime;
     uint256 public immutable secondUnlockTime;
     uint256 public immutable thirdUnlockTime;
@@ -24,7 +23,7 @@ contract TokenVesting is Ownable {
 
     mapping(address => Vesting) private _addressVesting;
 
-    //TODO: add events
+    event Claimed(address indexed beneficiary, uint256 amount);
 
     constructor(
         address addressToken,
@@ -81,6 +80,8 @@ contract TokenVesting is Ownable {
 
         vesting.totalClaimed += availableAmountToClaim;
         token.safeTransfer(msg.sender, availableAmountToClaim);
+
+        emit Claimed(msg.sender, availableAmountToClaim);
     }
 
     function _getAmountToClaim(address addressBeneficiary) private view returns (uint256 amount) {
