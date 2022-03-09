@@ -13,7 +13,9 @@ contract TokenSwap {
     event Swapped(address indexed swapper, uint256 amount);
 
     constructor(address addressTokenSwapFrom, address addressTokenSwapTo) {
-        //TODO: null address check
+        require(addressTokenSwapFrom != address(0), "TokenSwap: tokenSwapFrom address cannot be zero");
+        require(addressTokenSwapTo != address(0), "TokenSwap: tokenSwapTo address cannot be zero");
+
         tokenSwapFrom = IERC20(addressTokenSwapFrom);
         tokenSwapTo = IERC20(addressTokenSwapTo);
     }
