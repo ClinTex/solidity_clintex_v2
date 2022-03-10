@@ -79,6 +79,10 @@ contract TokenVesting is Ownable {
         emit Claimed(msg.sender, availableAmountToClaim);
     }
 
+    function getVesting(address beneficiary) external view onlyBeneficiary(beneficiary) returns (Vesting memory) {
+        return _addressVesting[beneficiary];
+    }
+
     function _getAmountToClaim(address addressBeneficiary) private view returns (uint256 amount) {
         Vesting memory vesting = _addressVesting[addressBeneficiary];
 
