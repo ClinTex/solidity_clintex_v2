@@ -32,7 +32,7 @@ contract TokenVesting is Ownable {
         uint256 _thirdUnlockTime
     ) {
         require(addressToken != address(0), "TokenVesting: token address cannot be zero");
-        require(_firstUnlockTime > block.timestamp, "TokenVesting: unlock time is before current time");
+        require(_firstUnlockTime > block.timestamp, "TokenVesting: first unlock time is before current time");
         require(_secondUnlockTime > _firstUnlockTime, "TokenVesting: second unlock time is before first unlock time");
         require(_thirdUnlockTime > _secondUnlockTime, "TokenVesting: third unlock time is before second unlock time");
 
@@ -55,21 +55,14 @@ contract TokenVesting is Ownable {
             Vesting memory vesting = vestings[i];
             address beneficiaryAddress = addresses[i];
 
-            require(
-                _isContainsAnyLockedToken(vesting),
-                string(abi.encodePacked("TokenVesting: ", beneficiaryAddress, " does not contains any locked tokens"))
-            );
-
             _setBeneficiaryVestingData(beneficiaryAddress, vesting);
         }
     }
 
     function claim() external onlyBeneficiary(msg.sender) {
-        require(block.timestamp >= firstUnlockTime, "TokenVesting: given time is before first unlock time");
+        require(block.timestamp >= firstUnlockTime, "TokenVesting: current time is before first unlock time");
 
-        Vesting storage vesting = _addressVesting[msg.sender];
-
-        uint256 availableAmountToClaim = _getAmountToClaim(msg.sender) - vesting.totalClaimed;
+        uint256 availableAmountToClaim = getAvailableAmountToClaim(msg.sender);
         require(availableAmountToClaim > 0, "TokenVesting: no tokens to claim");
 
         uint256 contractBalance = token.balanceOf(address(this));
@@ -78,10 +71,19 @@ contract TokenVesting is Ownable {
             "TokenVesting: contract balance is not enough to perform claim"
         );
 
-        vesting.totalClaimed += availableAmountToClaim;
+        _addressVesting[msg.sender].totalClaimed += availableAmountToClaim;
         token.safeTransfer(msg.sender, availableAmountToClaim);
 
         emit Claimed(msg.sender, availableAmountToClaim);
+    }
+
+    function getVesting(address beneficiary) external view onlyBeneficiary(beneficiary) returns (Vesting memory) {
+        return _addressVesting[beneficiary];
+    }
+
+    function getAvailableAmountToClaim(address beneficiary) public view returns (uint256 amount) {
+        Vesting memory vesting = _addressVesting[beneficiary];
+        amount = _getAmountToClaim(beneficiary) - vesting.totalClaimed;
     }
 
     function _getAmountToClaim(address addressBeneficiary) private view returns (uint256 amount) {
