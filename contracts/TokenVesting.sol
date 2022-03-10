@@ -60,11 +60,9 @@ contract TokenVesting is Ownable {
     }
 
     function claim() external onlyBeneficiary(msg.sender) {
-        require(block.timestamp >= firstUnlockTime, "TokenVesting: given time is before first unlock time");
+        require(block.timestamp >= firstUnlockTime, "TokenVesting: current time is before first unlock time");
 
-        Vesting storage vesting = _addressVesting[msg.sender];
-
-        uint256 availableAmountToClaim = _getAmountToClaim(msg.sender) - vesting.totalClaimed;
+        uint256 availableAmountToClaim = getAvailableAmountToClaim(msg.sender);
         require(availableAmountToClaim > 0, "TokenVesting: no tokens to claim");
 
         uint256 contractBalance = token.balanceOf(address(this));
@@ -73,7 +71,7 @@ contract TokenVesting is Ownable {
             "TokenVesting: contract balance is not enough to perform claim"
         );
 
-        vesting.totalClaimed += availableAmountToClaim;
+        _addressVesting[msg.sender].totalClaimed += availableAmountToClaim;
         token.safeTransfer(msg.sender, availableAmountToClaim);
 
         emit Claimed(msg.sender, availableAmountToClaim);
