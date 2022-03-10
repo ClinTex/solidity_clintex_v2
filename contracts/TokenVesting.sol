@@ -32,7 +32,7 @@ contract TokenVesting is Ownable {
         uint256 _thirdUnlockTime
     ) {
         require(addressToken != address(0), "TokenVesting: token address cannot be zero");
-        require(_firstUnlockTime > block.timestamp, "TokenVesting: unlock time is before current time");
+        require(_firstUnlockTime > block.timestamp, "TokenVesting: first unlock time is before current time");
         require(_secondUnlockTime > _firstUnlockTime, "TokenVesting: second unlock time is before first unlock time");
         require(_thirdUnlockTime > _secondUnlockTime, "TokenVesting: third unlock time is before second unlock time");
 
@@ -54,11 +54,6 @@ contract TokenVesting is Ownable {
         for (uint256 i = 0; i < addresses.length; i++) {
             Vesting memory vesting = vestings[i];
             address beneficiaryAddress = addresses[i];
-
-            require(
-                _isContainsAnyLockedToken(vesting),
-                string(abi.encodePacked("TokenVesting: ", beneficiaryAddress, " does not contains any locked tokens"))
-            );
 
             _setBeneficiaryVestingData(beneficiaryAddress, vesting);
         }
