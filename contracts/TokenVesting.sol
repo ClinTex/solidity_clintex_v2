@@ -83,6 +83,11 @@ contract TokenVesting is Ownable {
         return _addressVesting[beneficiary];
     }
 
+    function getAvailableAmountToClaim(address beneficiary) public view returns (uint256 amount) {
+        Vesting memory vesting = _addressVesting[beneficiary];
+        amount = _getAmountToClaim(beneficiary) - vesting.totalClaimed;
+    }
+
     function _getAmountToClaim(address addressBeneficiary) private view returns (uint256 amount) {
         Vesting memory vesting = _addressVesting[addressBeneficiary];
 
