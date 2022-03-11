@@ -25,7 +25,9 @@ coverage.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-deployNFTCollectionArgs.json
+deployClinTexArgs.json
+deployTokenSwapArgs.json
+deployTokenVestingArgs.json
 
 # types
 src/types/*
