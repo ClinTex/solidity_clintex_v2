@@ -4,12 +4,23 @@ pragma solidity ^0.8.6;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+/**
+ * @title Token swapping contract for swapping tokens from one contract to another
+ * @author Onur Tekin
+ */
 contract TokenSwap {
     using SafeERC20 for IERC20;
 
+    /// Token contract that is going to swap from
     IERC20 public immutable tokenSwapFrom;
+    /// Token contract that is going to swap to
     IERC20 public immutable tokenSwapTo;
 
+    /**
+     * @dev Emitted when tokens are swapped
+     * @param swapper The token swapper address
+     * @param amount The amount of tokens that had been swapped
+     */
     event Swapped(address indexed swapper, uint256 amount);
 
     constructor(address addressTokenSwapFrom, address addressTokenSwapTo) {
@@ -20,6 +31,10 @@ contract TokenSwap {
         tokenSwapTo = IERC20(addressTokenSwapTo);
     }
 
+    /**
+     * @dev Swaps tokens from one contract to another
+     * @param amount The amount of tokens that is going to be swapped
+     */
     function swap(uint256 amount) external {
         tokenSwapFrom.safeTransferFrom(msg.sender, address(this), amount);
 
