@@ -1,0 +1,39 @@
+{
+  "vestings": [
+    {
+      "amountToClaimOnFirstUnlockTime": 100,
+      "amountToClaimOnSecondUnlockTime": 200,
+      "amountToClaimOnThirdUnlockTime": 300
+    },
+    {
+      "amountToClaimOnFirstUnlockTime": 0,
+      "amountToClaimOnSecondUnlockTime": 200,
+      "amountToClaimOnThirdUnlockTime": 0
+    },
+    {
+      "amountToClaimOnFirstUnlockTime": 0,
+      "amountToClaimOnSecondUnlockTime": 0,
+      "amountToClaimOnThirdUnlockTime": 300
+    },
+    {
+      "amountToClaimOnFirstUnlockTime": 100,
+      "amountToClaimOnSecondUnlockTime": 200,
+      "amountToClaimOnThirdUnlockTime": 0
+    },
+    {
+      "amountToClaimOnFirstUnlockTime": 100,
+      "amountToClaimOnSecondUnlockTime": 0,
+      "amountToClaimOnThirdUnlockTime": 300
+    },
+    {
+      "amountToClaimOnFirstUnlockTime": 0,
+      "amountToClaimOnSecondUnlockTime": 200,
+      "amountToClaimOnThirdUnlockTime": 300
+    },
+    {
+      "amountToClaimOnFirstUnlockTime": 100,
+      "amountToClaimOnSecondUnlockTime": 0,
+      "amountToClaimOnThirdUnlockTime": 0
+    }
+  ]
+}
