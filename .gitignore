@@ -27,6 +27,7 @@ yarn-debug.log*
 yarn-error.log*
 deployClinTexArgs.json
 deployTokenSwapArgs.json
+deployTokenVestingArgs.json
 
 # types
 src/types/*
