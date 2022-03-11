@@ -1,6 +1,6 @@
-# Project Title
+# CLinTex Smart Contracts
 
-Info about the project.
+This repo is created to store smart contract and related files for ClinTex.
 
 ## Installation
 
@@ -89,6 +89,75 @@ Generate the code coverage report:
 
 ```bash
 yarn coverage
+```
+
+## Deployment
+
+### Deployment
+
+To deploy this project first change those fields on your `.env` file:
+
+`MNEMONIC="your mnemomic"` that should be your REAL mnemonic that you use on chain.
+
+`RUN_OPTIMIZER="true"` that is recommended for gas fees optimization.
+
+Then set your infura or alchemy api key (depending on chain you want to deploy):
+
+`INFURA_API_KEY="infura_api_key"` for eth and bsc chain.
+
+`ALCHEMY_API_KEY="alchemy_api_key"` for polygon.
+
+**For ClinTex Contract:**
+
+You have to create `deployClinTexArgs.json` file, using example: `deployClinTexArgs.example.json`.
+In this file you have to write contract arguments for `ClinTex` contract.
+
+**For TokenSwap Contract:**
+
+You have to create `deployTokenSwapArgs.json` file, using example: `deployTokenSwapArgs.example.json`.
+In this file you have to write contract arguments for `TokenSwap` contract.
+
+**For TokenVesting Contract:**
+
+You have to create `deployTokenVestingArgs.json` file, using example: `deployTokenVestingArgs.example.json`.
+In this file you have to write contract arguments for `TokenVesting` contract.
+
+Then it is ready to deploy. You can deploy using the command:
+
+```bash
+yarn deploy:clintex --network ${networkToDeploy}
+yarn deploy:tokenswap --network ${networkToDeploy}
+yarn deploy:tokenvesting --network ${networkToDeploy}
+```
+
+Example:
+
+```bash
+yarn deploy:clintex --network rinkeby
+yarn deploy:tokenswap --network rinkeby
+yarn deploy:tokenvesting --network rinkeby
+```
+
+### Verification
+
+To verify the contract first change block explorer api key on your `.env` file, depending on your network.
+For example, for ethereum network:
+`ETHERSCAN_API_KEY="etherscan_api_key"`.
+
+Then it is ready for verification. You can deploy using the command:
+
+```bash
+yarn verify:clintex --address ${deployed_contract_address} --network ${network}
+yarn verify:tokenswap --address ${deployed_contract_address} --network ${network}
+yarn verify:tokenvesting --address ${deployed_contract_address} --network ${network}
+```
+
+Example:
+
+```bash
+yarn verify:clintex --address ${deployed_contract_address} --network rinkeby
+yarn verify:tokenswap --address ${deployed_contract_address} --network rinkeby
+yarn verify:tokenvesting --address ${deployed_contract_address} --network rinkeby
 ```
 
 ## Contributing
