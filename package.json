@@ -44,10 +44,14 @@
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.7.20",
+    "solidity-docgen": "^0.5.16",
     "ts-generator": "^0.1.1",
     "ts-node": "^10.7.0",
     "typechain": "^7.0.1",
     "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "solc-0.8": "npm:solc@0.8.12"
   },
   "files": [
     "/contracts"
@@ -57,6 +61,7 @@
     "commit": "git-cz",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "yarn typechain && hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && yarn typechain",
+    "docgen": "solidity-docgen --solc-module solc-0.8 -t templates/ -o docs/solidity-docgen",
     "deploy:clintex": "hardhat run scripts/clintex/deploy.ts",
     "deploy:tokenswap": "hardhat run scripts/tokenswap/deploy.ts",
     "deploy:tokenvesting": "hardhat run scripts/tokenvesting/deploy.ts",
