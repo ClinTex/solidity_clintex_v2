@@ -61,6 +61,14 @@ Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
 yarn clean
 ```
 
+### Docs
+
+Create documentation for the contracts (in "docs/solidity-docgen" folder):
+
+```bash
+yarn docgen
+```
+
 ### Available Tasks
 
 To see available tasks from Hardhat:
