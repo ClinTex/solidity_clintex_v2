@@ -2,13 +2,15 @@
 pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /**
  * @title Token swapping contract for swapping tokens from one contract to another
  * @author Onur Tekin
  */
-contract TokenSwap {
+contract TokenSwap is Ownable, Pausable {
     using SafeERC20 for IERC20;
 
     /// Token contract that is going to swap from
@@ -35,7 +37,7 @@ contract TokenSwap {
      * @dev Swaps tokens from one contract to another
      * @param amount The amount of tokens that is going to be swapped
      */
-    function swap(uint256 amount) external {
+    function swap(uint256 amount) external whenNotPaused {
         tokenSwapFrom.safeTransferFrom(msg.sender, address(this), amount);
 
         uint256 contractBalance = tokenSwapTo.balanceOf(address(this));
@@ -44,5 +46,15 @@ contract TokenSwap {
         tokenSwapTo.safeTransfer(msg.sender, amount);
 
         emit Swapped(msg.sender, amount);
+    }
+
+    /// @dev Pauses certain functions. See {Pausable-_pause}
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    /// @dev Unpauses certain functions. See {Pausable-_unpause}
+    function unpause() external onlyOwner {
+        _unpause();
     }
 }
