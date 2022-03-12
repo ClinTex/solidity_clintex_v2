@@ -71,12 +71,24 @@ describe("TokenSwap tests", function () {
       );
     });
 
+    it("Should not swap if the contract is paused", async function () {
+      const amount = ethers.utils.parseEther("100");
+
+      // pause the contract
+      await this.tokenSwap.pause();
+
+      await expect(this.tokenSwap.swap(amount)).to.revertedWith("Pausable: paused");
+    });
+
     it("Should give correct values after swap", async function () {
       const swapper = this.signers.admin.address;
       const amount = ethers.utils.parseEther("100");
 
       // mint tokenSwap contract `amount` tokens (for swap)
       await this.tokenClinTexNew.mint(this.tokenSwap.address, amount);
+
+      // unpause the contract
+      await this.tokenSwap.unpause();
 
       // Before swap
       const balanceUserClinTexOldBefore = await this.tokenClinTexOld.balanceOf(swapper);
